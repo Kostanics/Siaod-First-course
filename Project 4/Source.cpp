@@ -1,55 +1,48 @@
 #include <iostream>
-#include <chrono> 
 using namespace std;
+
 void sorty(const int n) {
-    int* random = new int[n] {};
-    srand(time(NULL));
+    int comparisonsCount = 0;
+    int x;
+    int* arr = new int[n];
     for (int i = 0; i < n; i++) {
-        random[i] = rand() % 10;
-    }
-    //cout << "massive: " << endl;
-    for (int i = 0; i < n; i++) {
-        //cout << random[i];
+        arr[i] = rand() % n;
+        //cout << arr[i] << "  ";
     }
     cout << endl;
-    auto start = chrono::high_resolution_clock::now();
-    unsigned long long comparisonsCount = 0, swapCount = 0;
-    int temp;
-    int x = 0;
-    for (int j = 0; j < n - 1; j++) {
-        for (int k = n - 1; k > j; k--) {
-            comparisonsCount++;
-            if (random[k] < random[k - 1]) {
-                x = random[k - 1];
-                random[k - 1] = random[k];
-                random[k] = x;
-                swapCount += 3;
-            }
+    cout << "Find: ";
+    cin >> x;
+    for (int i = 0; i < n; i++)
+    {
+        comparisonsCount++;
+        if (arr[i] == x) {
+            cout << "position: " << i << endl;
+            break;
         }
     }
-    auto finish = chrono::high_resolution_clock::now();
-    cout << "sorting time: " << ((chrono::duration_cast<chrono::microseconds>)(finish - start)).count() << " (microseconds)\nNumber of permutations: " << swapCount << "\nNumber of comparisons: " << comparisonsCount << "\npermutations and comparisons = " << (comparisonsCount + swapCount) << "\n";
-    //cout << "sort massive: " << endl;
-    for (int i = 0; i < n; i++) {
-        //cout << random[i];
-    }
-    delete[] random;
+    cout << "number of comparisons:" << comparisonsCount << endl;
 }
-
 int main()
 {
+    srand(time(NULL));
+    int n;
     cout << "For 100 elements:" << endl;
-    sorty(100);
-    cout << endl;
+    sorty(n = 100);
+    system("pause");
+
     cout << "For 1000 elements:" << endl;
-    sorty(1000);
-    cout << endl;
+    sorty(n = 1000);
+    system("pause");
+
     cout << "For 10000 elements:" << endl;
-    sorty(10000);
-    cout << endl;
+    sorty(n = 10000);
+    system("pause");
+
     cout << "For 100000 elements:" << endl;
-    sorty(100000);
-    cout << endl;
+    sorty(n = 100000);
+    system("pause");
+
     cout << "For 1000000 elements:" << endl;
-    sorty(1000000);
+    sorty(n = 1000000);
+    system("pause");
 }
