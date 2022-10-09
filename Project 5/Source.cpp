@@ -1,27 +1,47 @@
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 void sorty(const int n) {
-    int x;
-    int position = 0;
+    int comparisonsCount = 0;
     int* arr = new int[n];
-    for (int i = 0; i < n; i++){
-        arr[i] = rand() % n; 
-        cout << arr[i] << "  ";
+    for (int i = 0; i < n; i++) {
+        arr[i] = rand() % n;
+        //cout << arr[i] << "  ";
     }
     cout << endl;
-    cout << "Find: "; 
-    cin >> x;
-    if (arr[n - 1] != x){
-        arr[n - 1] = x;
-        for (; arr[position] != x; position++);
-        position++;
+    //cout << "sort:";
+    sort(arr, arr + n);
+    cout << endl;
+    for (int i = 0; i < n; i++) {
+        //cout << arr[i] << "  ";
     }
-    else{
-        cout << n;
+    cout << endl;
+    cout << "enter key: ";
+    int key;
+    cin >> key;
+    int x = 0;
+    int p = n;
+    int m;
+    while (x < p) {
+        m = (x + p) / 2;
+        if (arr[m] > key) {
+            comparisonsCount++;
+            p = m;
+        }
+        else {
+            x = m + 1;
+        }
     }
-    cout << "position: " << position;
+    p--;
+    if (arr[p] == key) {
+        cout << "position: " << p << endl << "number of comparisons" << comparisonsCount << endl;
+    }
+    else {
+        cout << "not found";
+    }
 }
+
 int main()
 {
     srand(time(NULL));
