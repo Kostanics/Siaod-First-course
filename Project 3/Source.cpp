@@ -1,27 +1,56 @@
 #include <iostream>
+#include <chrono> 
 using namespace std;
+int swapcount = 0, ifcount = 0;
+void Merge(int* A, int first, int last) {
+    int start, middle, final, j;
+    int* mas = new int[last + 1];
+    middle = (first + last) / 2;
+    start = first;
+    final = middle + 1;
+    for (j = first; j <= last; j++) {
+        if ((start <= middle) && ((final > last) || (A[start] < A[final]))) {
+            mas[j] = A[start];
+            start++;
+        }
+        else {
+            mas[j] = A[final];
+            final++;
+        }
+    }
+    for (j = first; j <= last; j++) {
+        A[j] = mas[j];
+    }
+    delete[]mas;
+}
+
+void MergeSort(int* A, int first, int last) {
+    if (first < last) {
+        MergeSort(A, first, (first + last) / 2);
+        MergeSort(A, (first + last) / 2 + 1, last);
+        Merge(A, first, last);
+    }
+}
 
 void sorty(const int n) {
-    int x;
-    int position = 0;
-    int* arr = new int[n];
-    for (int i = 0; i < n; i++){
-        arr[i] = rand() % n; 
-        cout << arr[i] << "  ";
+    int* A = new int[n + 1];
+    //cout << "not sort:" << endl;
+    for (int i = 1; i <= n; i++)
+    {
+        A[i] = rand() % 10;
+        //cout << A[i];
     }
-    cout << endl;
-    cout << "Find: "; 
-    cin >> x;
-    if (arr[n - 1] != x){
-        arr[n - 1] = x;
-        for (; arr[position] != x; position++);
-        position++;
+    auto start = chrono::high_resolution_clock::now();
+    MergeSort(A, 1, n);
+    auto end = chrono::high_resolution_clock::now();
+    cout << "sorting time: " << ((chrono::duration_cast<chrono::microseconds>)(end - start)).count() << " (microseconds)" << endl;
+    //cout << endl << "sort:" << endl;
+    for (int i = 1; i <= n; i++) {
+        //cout << A[i];
     }
-    else{
-        cout << n;
-    }
-    cout << "position: " << position;
+    delete[]A;
 }
+
 int main()
 {
     srand(time(NULL));
