@@ -1,48 +1,23 @@
 #include <iostream>
 using namespace std;
 
-void sorty(const int n) {
-    int x;
-    int position = 0;
-    int* arr = new int[n];
-    for (int i = 0; i < n; i++){
-        arr[i] = rand() % n; 
-        cout << arr[i] << "  ";
-    }
-    cout << endl;
-    cout << "Find: "; 
-    cin >> x;
-    if (arr[n - 1] != x){
-        arr[n - 1] = x;
-        for (; arr[position] != x; position++);
-        position++;
-    }
-    else{
-        cout << n;
-    }
-    cout << "position: " << position;
+int OSRS(int arr[], int x, int n){
+	int c;
+	int min = INT_MAX;
+	if (x == n) {
+		return 0;
+	}
+	for (int i = x; i < n; i++){
+		c = OSRS(arr, x, i) + OSRS(arr, i + 1, n) + arr[x - 1] * arr[i] * arr[n];
+		if (c < min) {
+			min = c;
+		}
+	}
+	return min;
 }
-int main()
-{
-    srand(time(NULL));
-    int n;
-    cout << "For 100 elements:" << endl;
-    sorty(n = 100);
-    system("pause");
 
-    cout << "For 1000 elements:" << endl;
-    sorty(n = 1000);
-    system("pause");
-
-    cout << "For 10000 elements:" << endl;
-    sorty(n = 10000);
-    system("pause");
-
-    cout << "For 100000 elements:" << endl;
-    sorty(n = 100000);
-    system("pause");
-
-    cout << "For 1000000 elements:" << endl;
-    sorty(n = 1000000);
-    system("pause");
+int main(){
+	int arr[7] = { 5, 10, 3, 12, 5, 50, 6};
+	int n = sizeof(arr) / sizeof(arr[0]);
+	cout << "best way to place parentheses: "<< OSRS(arr, 1, n - 1);
 }
