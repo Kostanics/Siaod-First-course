@@ -1,48 +1,87 @@
 #include <iostream>
+#include <list>
 using namespace std;
 
-void sorty(const int n) {
-    int x;
-    int position = 0;
-    int* arr = new int[n];
-    for (int i = 0; i < n; i++){
-        arr[i] = rand() % n; 
-        cout << arr[i] << "  ";
+class Has {
+    int c;
+    list<int>* product;
+public:
+    Has(int V);
+    void in(int key, int data);
+    void dell(int key);
+
+    int check(int n){
+        int i;
+        if (n == 0 || n == 1){
+            return 0;
+        }
+        for (i = 2; i < n / 2; i++){
+            if (n % i == 0){
+                return 0;
+            }
+        }
+        return 1;
     }
-    cout << endl;
-    cout << "Find: "; 
-    cin >> x;
-    if (arr[n - 1] != x){
-        arr[n - 1] = x;
-        for (; arr[position] != x; position++);
-        position++;
+
+    int get(int n){
+        if (n % 2 == 0){
+            n++;
+        }
+        while (!check(n)){
+            n += 2;
+        }
+        return n;
     }
-    else{
-        cout << n;
+
+    int hf(int key){
+        return (key % c);
     }
-    cout << "position: " << position;
+    void print();
+};
+
+Has::Has(int x){
+    int size = get(x);
+    this->c = size;
+    product = new list<int>[c];
 }
-int main()
-{
-    srand(time(NULL));
-    int n;
-    cout << "For 100 elements:" << endl;
-    sorty(n = 100);
-    system("pause");
 
-    cout << "For 1000 elements:" << endl;
-    sorty(n = 1000);
-    system("pause");
+void Has::in(int key, int data){
+    int ind = hf(key);
+    product[ind].push_back(data);
+}
 
-    cout << "For 10000 elements:" << endl;
-    sorty(n = 10000);
-    system("pause");
+void Has::dell(int key){
+    int ind = hf(key);
+    list<int>::iterator i;
+    for (i = product[ind].begin(); i != product[ind].end(); i++){
+        if (*i == key) {
+            break;
+        }
+    }
 
-    cout << "For 100000 elements:" << endl;
-    sorty(n = 100000);
-    system("pause");
+    if (i != product[ind].end()) {
+        product[ind].erase(i);
+    }
+}
 
-    cout << "For 1000000 elements:" << endl;
-    sorty(n = 1000000);
-    system("pause");
+void Has::print(){
+    for (int i = 0; i < c; i++){
+        cout << "product:" << i;
+        for (auto x : product[i]) {
+            cout << "  code:" << x;
+        }
+        cout << endl;
+    }
+}
+
+int main(){
+    int key[] = { 5, 3, 4, 6, 7, 9, 8, 2, 1, 10 };
+    int data[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+    int n = sizeof(key) / sizeof(key[0]);
+    Has h(n);
+    for (int i = 0; i < n; i++) {
+        h.in(key[i], data[i]);
+    }
+    h.dell(20);
+    h.print();
 }
