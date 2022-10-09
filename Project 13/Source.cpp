@@ -1,48 +1,59 @@
 #include <iostream>
+
 using namespace std;
 
-void sorty(const int n) {
-    int x;
-    int position = 0;
-    int* arr = new int[n];
-    for (int i = 0; i < n; i++){
-        arr[i] = rand() % n; 
-        cout << arr[i] << "  ";
+void main() {
+    srand(time(NULL));
+    const int a = 4;
+    int mass[a][a];
+    int d;
+    cout << "1=manual input 2=auto" << endl;
+    cin >> d;
+    switch (d)
+    {
+    case 1:
+    {
+        for(int i = 0; i < a; i++) {
+            for (int j = 0; j < a; j++) {
+                cout << "Введите графы a[" << i << "][" << j << "] ";
+                cin >> mass[i][j];
+            }
+        }
+        break;
+    }
+    case 2:
+    {
+        for (int i = 0; i < a; i++) {
+            for (int j = 0; j < a; j++) {
+                mass[i][j]=rand() % 10;
+            }
+        }
+        break;
+    }
+    }
+    for (int i = 0; i < a; i++){
+        for (int j = 0; j < a; j++){
+            cout << mass[i][j] << " ";
+        }
+        cout << endl;
     }
     cout << endl;
-    cout << "Find: "; 
-    cin >> x;
-    if (arr[n - 1] != x){
-        arr[n - 1] = x;
-        for (; arr[position] != x; position++);
-        position++;
+    int n = 7;
+    bool* pr = new bool[n];
+    memset(pr, false, sizeof(bool) * n);
+    pr[0] = true;
+    for (int l = 0; l < n - 1; l++) {
+        int minx = -1, miny = -1;
+        for (int i = 0; i < n; i++) {
+            if (pr[i]) {
+                for (int j = 0; j < n; j++) {
+                    if (!pr[j] && mass[i][j] > 0 && (miny == -1 || mass[i][j] < mass[miny][minx])) {
+                        miny = i, minx = j;
+                    }
+                }
+            }
+        }
+        pr[minx] = true;
+        cout << miny << ": " << minx << endl;
     }
-    else{
-        cout << n;
-    }
-    cout << "position: " << position;
-}
-int main()
-{
-    srand(time(NULL));
-    int n;
-    cout << "For 100 elements:" << endl;
-    sorty(n = 100);
-    system("pause");
-
-    cout << "For 1000 elements:" << endl;
-    sorty(n = 1000);
-    system("pause");
-
-    cout << "For 10000 elements:" << endl;
-    sorty(n = 10000);
-    system("pause");
-
-    cout << "For 100000 elements:" << endl;
-    sorty(n = 100000);
-    system("pause");
-
-    cout << "For 1000000 elements:" << endl;
-    sorty(n = 1000000);
-    system("pause");
 }
